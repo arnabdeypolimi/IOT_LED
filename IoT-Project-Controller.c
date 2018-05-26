@@ -20,19 +20,16 @@
 
 static struct mesh_conn mesh;
 
-/* This structure holds information about neighbors. */
-struct neighbor {
-  /* The ->next pointer is needed since we are placing these on a
-     Contiki list. */
-  struct neighbor *next;
+rimeaddr_t *rime_addr
+rimeaddr_t neighbors_addr[3];
+unsigned short array = [2, 5, 8];
+unsigned short i;
 
-  /* The ->addr field holds the Rime address of the neighbor. */
-  rimeaddr_t addr;
-};
-
-MEMB(neighbors_memb, struct neighbor, MAX_NEIGHBORS);
-LIST(neighbors_list);
-
+for(i = 0, i < 3 ; i++){
+	rime_addr->u8[0] = array[i];
+	rime_addr->u8[1] = 0;
+	rimeaddr_copy(&neighbors_addr[i], rime_addr);
+}
 
 /*---------------------------------------------------------------------------*/
 PROCESS(controller_process, "Controller");
