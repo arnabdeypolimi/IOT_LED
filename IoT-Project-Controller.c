@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define ARRAY_SIZE( array ) sizeof( array ) / sizeof( char )
 #define CHANNEL 132
@@ -18,7 +19,6 @@
 PROCESS(controller_process, "Controller");
 AUTOSTART_PROCESSES(&controller_process);
 /*---------------------------------------------------------------------------*/
-
 static void
 sent(struct unicast_conn *c)
 {
@@ -39,7 +39,7 @@ recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
 	 packetbuf_datalen(), (char *)packetbuf_dataptr(), packetbuf_datalen());
 }
 
-static const struct unicast_callbacks unicast_callbacks = {recv, sent, timedout};
+static const struct unicast_callbacks callbacks = {recv, sent, timedout};
 static struct unicast_conn uc; 
 
 PROCESS_THREAD(controller_process, ev, data)
@@ -48,43 +48,58 @@ PROCESS_THREAD(controller_process, ev, data)
     
   PROCESS_BEGIN();
 
-  unicast_open(&uc, CHANNEL, &unicast_callbacks);
+  unicast_open(&uc, CHANNEL, &callbacks);
 
   /* Activate the button sensor. We use the button to drive traffic -
      when the button is pressed, a packet is sent. */
   SENSORS_ACTIVATE(button_sensor);
   
-  static int i;
-  static char * message;
+  static int i = 0;
   static int counter = 0;
-  
+  static char *message;
+  static char *pattern[] = {"2", "4", "6", "8", "10"};
 
   while(1) {
     rimeaddr_t addr;
-    int pattern[] = {2, 4, 6, 8, 10};
     /* Wait for button click before sending the first message. */
     PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
     counter += 1;
     printf("Button clicked %d times.\n", counter);
 
-    for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
-	message = pattern[i];
-	packetbuf_copyfrom(message, strlen(message));
-	printf("MESSAGE is: %d \n", pattern[i]);
-	if(*message < 5){
-		addr.u8[0] = 2;
-        	addr.u8[1] = 0;
-	}
-	else if(*message < 8){
-		addr.u8[0] = 5;
-        	addr.u8[1] = 0;
-	}
-	else{
-	 	addr.u8[0] = 8;
-        	addr.u8[1] = 0;
-	}
-	unicast_send(&uc, &addr);
+    if(counter > 1){
+	for(i = 2; i < 9; i = i + 3){	/* Switch off the leds */
+		packetbuf_copyfrom("0",1);
+		printf("Switching OFF the LEDS...\n");
+		addr.u8[0] = i;
+		addr.u8[1] = 0;
+		unicast_send(&uc, &addr);
+    	}
     }
+
+    switch(counter){
+	case 1: 
+		for(i = 0; i < 5; i = i++){	/* Send a message to node number 2 or 5 or 8. */
+			message = pattern[i];
+			packetbuf_copyfrom(message, strlen(message));
+			printf("MESSAGE is: %s \n", message);
+			if(atoi(message) < 5){
+				addr.u8[0] = 2;
+				addr.u8[1] = 0;
+			}
+			else if(atoi(message) < 8){
+				addr.u8[0] = 5;
+				addr.u8[1] = 0;
+			}
+			else{
+			 	addr.u8[0] = 8;
+				addr.u8[1] = 0;
+			}
+			unicast_send(&uc, &addr);
+    		}
+		break;
+
+    }
+    
   }
 
   PROCESS_END();
