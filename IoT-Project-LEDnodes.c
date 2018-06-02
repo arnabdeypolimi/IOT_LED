@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define CHANNEL 132
 
@@ -53,28 +54,38 @@ recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
 	addr.u8[0] = rimeaddr_node_addr.u8[0] + 1;
     	addr.u8[1] = 0;
    	if(addr.u8[0] != from->u8[0]){
-	   unicast_send(&uc, &addr);
+	   unicast_send(c, &addr);
+	   printf("Forwarding packet to node %d ...\n", addr.u8[0]);
    	}
   }
+  else if (MSG == 0)
+	leds_off(LEDS_RED);
+	if(rimeaddr_node_addr.u8[0] != 4 && rimeaddr_node_addr.u8[0] != 7 
+					&& rimeaddr_node_addr.u8[0] != 10){
+		addr.u8[0] = rimeaddr_node_addr.u8[0] + 1;
+    		addr.u8[1] = 0;
+		unicast_send(c, &addr);
+	}
   else{
       	packetbuf_copyfrom(message_receive, strlen(message_receive));
 	addr.u8[0] = rimeaddr_node_addr.u8[0] - 1;
 	addr.u8[1] = 0;
-	if(addr.u8[0] != from->u8[0]){
-	   unicast_send(&uc, &addr);
+	if(addr.u8[0] != from->u8[0] && MSG != 0){
+	   unicast_send(c, &addr);
+	   printf("Forwarding packet to node %d ...\n", addr.u8[0]);
 	}
   }
 }
 
-static const struct unicast_callbacks unicast_callbacks = {recv, sent, timedout};
+static const struct unicast_callbacks callbacks = {recv, sent, timedout};
 
 PROCESS_THREAD(node_led_process, ev, data)
 {
   PROCESS_EXITHANDLER(unicast_close(&uc);)
   PROCESS_BEGIN();
 
-  unicast_open(&uc, CHANNEL, &unicast_callbacks); /* Call this function to establish a 
-						 new unicastconnection*/
+  unicast_open(&uc, CHANNEL, &callbacks); /* Call this function to establish a 
+						 new unicast connection*/
   
   leds_init();
 
