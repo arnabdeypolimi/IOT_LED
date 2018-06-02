@@ -58,7 +58,7 @@ recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
 	   printf("Forwarding packet to node %d ...\n", addr.u8[0]);
    	}
   }
-  else if (MSG == 0)
+  else if(MSG == 0){
 	leds_off(LEDS_RED);
 	if(rimeaddr_node_addr.u8[0] != 4 && rimeaddr_node_addr.u8[0] != 7 
 					&& rimeaddr_node_addr.u8[0] != 10){
@@ -66,6 +66,7 @@ recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
     		addr.u8[1] = 0;
 		unicast_send(c, &addr);
 	}
+  }
   else{
       	packetbuf_copyfrom(message_receive, strlen(message_receive));
 	addr.u8[0] = rimeaddr_node_addr.u8[0] - 1;
