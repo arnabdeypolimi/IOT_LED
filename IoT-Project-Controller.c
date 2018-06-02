@@ -7,6 +7,7 @@
 #include "dev/leds.h"
 #include "lib/list.h"
 #include "lib/memb.h"
+#include "etimer.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -19,6 +20,8 @@
 PROCESS(controller_process, "Controller");
 AUTOSTART_PROCESSES(&controller_process);
 /*---------------------------------------------------------------------------*/
+static struct etimer et;
+
 static void
 sent(struct unicast_conn *c)
 {
@@ -67,14 +70,17 @@ PROCESS_THREAD(controller_process, ev, data)
     printf("Button clicked %d times.\n", counter);
 
     if(counter > 1){
+	printf("Switching OFF the LEDS...\n");
 	for(i = 2; i < 9; i = i + 3){	/* Switch off the leds */
 		packetbuf_copyfrom("0",1);
-		printf("Switching OFF the LEDS...\n");
 		addr.u8[0] = i;
 		addr.u8[1] = 0;
 		unicast_send(&uc, &addr);
     	}
     }
+    
+    etimer_set(&et, CLOCK_SECOND*1.5);
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
     switch(counter){
 	case 1: 
@@ -105,4 +111,3 @@ PROCESS_THREAD(controller_process, ev, data)
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
-
