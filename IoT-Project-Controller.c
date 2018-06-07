@@ -7,7 +7,6 @@
 #include "dev/leds.h"
 #include "lib/list.h"
 #include "lib/memb.h"
-#include "etimer.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -47,7 +46,7 @@ static struct unicast_conn uc;
 
 PROCESS_THREAD(controller_process, ev, data)
 {
-  PROCESS_EXITHANDLER(unicast_close(&uc);)
+  PROCESS_EXITHANDLER(unicast_close(&uc));
     
   PROCESS_BEGIN();
 
@@ -77,14 +76,15 @@ PROCESS_THREAD(controller_process, ev, data)
 		addr.u8[1] = 0;
 		unicast_send(&uc, &addr);
     	}
+	etimer_set(&et, CLOCK_SECOND *1.5);
+    	PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+	etimer_reset(&et);
     }
     
-    etimer_set(&et, CLOCK_SECOND*1.5);
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-
+    
     switch(counter){
 	case 1: 
-		for(i = 0; i < 5; i = i++){	/* Send a message to node number 2 or 5 or 8. */
+		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
@@ -101,7 +101,11 @@ PROCESS_THREAD(controller_process, ev, data)
 				addr.u8[1] = 0;
 			}
 			unicast_send(&uc, &addr);
+			//etimer_set(&et, CLOCK_SECOND*0.01);
+    			//PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+			//etimer_reset(&et);
     		}
+		counter = 0;
 		break;
 
     }
@@ -111,3 +115,4 @@ PROCESS_THREAD(controller_process, ev, data)
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
+
