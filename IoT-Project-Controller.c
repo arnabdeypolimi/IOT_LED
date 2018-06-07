@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 #define ARRAY_SIZE( array ) sizeof( array ) / sizeof( char )
-#define CHANNEL 132
+#define CHANNEL 146
 
 /*---------------------------------------------------------------------------*/
 PROCESS(controller_process, "Controller");
@@ -60,9 +60,11 @@ PROCESS_THREAD(controller_process, ev, data)
   static int counter = 0;
   static char *message;
   static char *pattern[] = {"2", "4", "6", "8", "10"};
+  static char *pattern1[] = {"3", "5", "7", "9", "6"};
 
   while(1) {
     rimeaddr_t addr;
+    //struct etimer et2;
     /* Wait for button click before sending the first message. */
     PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
     counter += 1;
@@ -101,12 +103,36 @@ PROCESS_THREAD(controller_process, ev, data)
 				addr.u8[1] = 0;
 			}
 			unicast_send(&uc, &addr);
-			//etimer_set(&et, CLOCK_SECOND*0.01);
-    			//PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-			//etimer_reset(&et);
+			//etimer_set(&et2, CLOCK_SECOND);
+    			//PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et2));
+			//etimer_reset(&et2);
     		}
-		counter = 0;
 		break;
+
+	case 2: 
+		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
+			message = pattern1[i];
+			packetbuf_copyfrom(message, strlen(message));
+			printf("MESSAGE is: %s \n", message);
+			if(atoi(message) < 5){
+				addr.u8[0] = 2;
+				addr.u8[1] = 0;
+			}
+			else if(atoi(message) < 8){
+				addr.u8[0] = 5;
+				addr.u8[1] = 0;
+			}
+			else{
+			 	addr.u8[0] = 8;
+				addr.u8[1] = 0;
+			}
+			unicast_send(&uc, &addr);
+			//etimer_set(&et2, CLOCK_SECOND);
+    			//PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et2));
+			//etimer_reset(&et2);
+    		}
+		break;
+
 
     }
     

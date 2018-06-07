@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define CHANNEL 132
+#define CHANNEL 146
 
 /*---------------------------------------------------------------------------*/
 PROCESS(node_led_process, "LED Node");
@@ -30,8 +30,6 @@ timedout(struct unicast_conn *c)
 {
   printf("packet timedout\n");
 }
-
-static struct unicast_conn uc; 
 
 static void
 recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
@@ -78,7 +76,8 @@ recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
   }
 }
 
-static const struct unicast_callbacks callbacks = {recv, sent, timedout};
+static struct unicast_conn uc;
+static const struct unicast_callbacks callbacks = {recv};
 
 PROCESS_THREAD(node_led_process, ev, data)
 {
@@ -86,7 +85,7 @@ PROCESS_THREAD(node_led_process, ev, data)
   PROCESS_BEGIN();
 
   unicast_open(&uc, CHANNEL, &callbacks); /* Call this function to establish a 
-						 new unicast connection*/
+						 new unicast connection */
   
   leds_init();
 
