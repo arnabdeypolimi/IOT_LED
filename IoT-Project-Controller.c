@@ -13,13 +13,13 @@
 #include <stdlib.h>
 
 #define ARRAY_SIZE( array ) sizeof( array ) / sizeof( char )
-#define CHANNEL 146
+#define CHANNEL 132
 
 /*---------------------------------------------------------------------------*/
 PROCESS(controller_process, "Controller");
 AUTOSTART_PROCESSES(&controller_process);
 /*---------------------------------------------------------------------------*/
-static struct etimer et;
+
 
 static void
 sent(struct unicast_conn *c)
@@ -47,7 +47,7 @@ static struct unicast_conn uc;
 PROCESS_THREAD(controller_process, ev, data)
 {
   PROCESS_EXITHANDLER(unicast_close(&uc));
-    
+  static struct etimer et;  
   PROCESS_BEGIN();
 
   unicast_open(&uc, CHANNEL, &callbacks);
@@ -59,33 +59,33 @@ PROCESS_THREAD(controller_process, ev, data)
   static int i = 0;
   static int counter = 0;
   static char *message;
-  static char *pattern[] = {"2", "4", "6", "8", "10"};
-  static char *pattern1[] = {"3", "5", "7", "9", "6"};
+  static char *pattern[] = {"2", "6", "8", "4", "10"};
 
   while(1) {
     rimeaddr_t addr;
-    //struct etimer et2;
     /* Wait for button click before sending the first message. */
     PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
     counter += 1;
     printf("Button clicked %d times.\n", counter);
 
-    if(counter > 1){
+    if(counter%2==0){
 	printf("Switching OFF the LEDS...\n");
 	for(i = 2; i < 9; i = i + 3){	/* Switch off the leds */
 		packetbuf_copyfrom("0",1);
 		addr.u8[0] = i;
 		addr.u8[1] = 0;
 		unicast_send(&uc, &addr);
-    	}
-	etimer_set(&et, CLOCK_SECOND *1.5);
-    	PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
-	etimer_reset(&et);
+		//clock_wait(1000);
+		etimer_set(&et, CLOCK_SECOND *4);
+    		PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+		etimer_reset(&et);
+	}
     }
     
-    
-    switch(counter){
-	case 1: 
+    int st=counter%2;
+    //switch(st){
+	//case 1:
+	if(st==1){ 
 		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern[i];
 			packetbuf_copyfrom(message, strlen(message));
@@ -94,45 +94,20 @@ PROCESS_THREAD(controller_process, ev, data)
 				addr.u8[0] = 2;
 				addr.u8[1] = 0;
 			}
-			else if(atoi(message) < 8){
+			else if(atoi(message) < 8 && atoi(message) >= 5){
 				addr.u8[0] = 5;
 				addr.u8[1] = 0;
 			}
-			else{
+			else if(atoi(message) < 11 && atoi(message) >= 8){
 			 	addr.u8[0] = 8;
 				addr.u8[1] = 0;
 			}
 			unicast_send(&uc, &addr);
-			//etimer_set(&et2, CLOCK_SECOND);
-    			//PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et2));
-			//etimer_reset(&et2);
+			etimer_set(&et, CLOCK_SECOND *4);
+    			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+			etimer_reset(&et);
     		}
-		break;
-
-	case 2: 
-		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
-			message = pattern1[i];
-			packetbuf_copyfrom(message, strlen(message));
-			printf("MESSAGE is: %s \n", message);
-			if(atoi(message) < 5){
-				addr.u8[0] = 2;
-				addr.u8[1] = 0;
-			}
-			else if(atoi(message) < 8){
-				addr.u8[0] = 5;
-				addr.u8[1] = 0;
-			}
-			else{
-			 	addr.u8[0] = 8;
-				addr.u8[1] = 0;
-			}
-			unicast_send(&uc, &addr);
-			//etimer_set(&et2, CLOCK_SECOND);
-    			//PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et2));
-			//etimer_reset(&et2);
-    		}
-		break;
-
+		//break;
 
     }
     
@@ -141,4 +116,3 @@ PROCESS_THREAD(controller_process, ev, data)
   PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
-
