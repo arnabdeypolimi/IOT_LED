@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define CHANNEL 146
+#define CHANNEL 132
 
 /*---------------------------------------------------------------------------*/
 PROCESS(node_led_process, "LED Node");
@@ -31,10 +31,11 @@ timedout(struct unicast_conn *c)
   printf("packet timedout\n");
 }
 
+static struct unicast_conn uc; 
+
 static void
 recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
 { int MSG;
-
   printf("Data received from %d.%d: %.*s (%d)\n",
 	 from->u8[0], from->u8[1],
 	 packetbuf_datalen(), (char *)packetbuf_dataptr(), packetbuf_datalen());
@@ -63,6 +64,7 @@ recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
 		addr.u8[0] = rimeaddr_node_addr.u8[0] + 1;
     		addr.u8[1] = 0;
 		unicast_send(c, &addr);
+		
 	}
   }
   else{
@@ -76,16 +78,16 @@ recv(struct unicast_conn *c, const rimeaddr_t *from, uint8_t hops)
   }
 }
 
-static struct unicast_conn uc;
-static const struct unicast_callbacks callbacks = {recv};
+static const struct unicast_callbacks callbacks = {recv, sent, timedout};
 
 PROCESS_THREAD(node_led_process, ev, data)
 {
-  PROCESS_EXITHANDLER(unicast_close(&uc);)
+  PROCESS_EXITHANDLER(unicast_close(&uc));
+  
   PROCESS_BEGIN();
 
   unicast_open(&uc, CHANNEL, &callbacks); /* Call this function to establish a 
-						 new unicast connection */
+						 new unicast connection*/
   
   leds_init();
 
