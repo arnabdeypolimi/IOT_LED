@@ -59,7 +59,9 @@ PROCESS_THREAD(controller_process, ev, data)
   static int i = 0;
   static int counter = 0;
   static char *message;
-  static char *pattern[] = {"2", "6", "8", "4", "10"};
+  static char *pattern[] = {"4", "10", "7", "3", "6", "9", "2", "5", "8"};
+  static char *pattern1[] = {"4", "10", "6", "2", "8"};
+  static char *pattern2[] = {"2", "6", "8", "4", "10"};
 
   while(1) {
     rimeaddr_t addr;
@@ -68,26 +70,35 @@ PROCESS_THREAD(controller_process, ev, data)
     counter += 1;
     printf("Button clicked %d times.\n", counter);
 
-    if(counter%2==0){
+    if(counter%2 == 0){
 	printf("Switching OFF the LEDS...\n");
-	for(i = 2; i < 9; i = i + 3){	/* Switch off the leds */
-		packetbuf_copyfrom("0",1);
-		addr.u8[0] = i;
-		addr.u8[1] = 0;
+	for(i = 0; i < 9; i++){	/* Switch off the leds */
+		message = pattern[i];
+		packetbuf_copyfrom(message, strlen(message));
+		printf("MESSAGE is: %s \n", message);
+		if(atoi(message) < 5){
+				addr.u8[0] = 2;
+				addr.u8[1] = 0;
+		}
+		else if(atoi(message) < 8 && atoi(message) >= 5){
+				addr.u8[0] = 5;
+				addr.u8[1] = 0;
+		}
+		else if(atoi(message) < 11 && atoi(message) >= 8){
+			 	addr.u8[0] = 8;
+				addr.u8[1] = 0;
+		}
 		unicast_send(&uc, &addr);
-		//clock_wait(1000);
-		etimer_set(&et, CLOCK_SECOND *4);
+		etimer_set(&et, CLOCK_SECOND *10);
     		PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 		etimer_reset(&et);
 	}
     }
     
-    int st=counter%2;
-    //switch(st){
-	//case 1:
+    int st=counter;
 	if(st==1){ 
 		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
-			message = pattern[i];
+			message = pattern1[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
 			if(atoi(message) < 5){
@@ -103,7 +114,7 @@ PROCESS_THREAD(controller_process, ev, data)
 				addr.u8[1] = 0;
 			}
 			unicast_send(&uc, &addr);
-			etimer_set(&et, CLOCK_SECOND *4);
+			etimer_set(&et, CLOCK_SECOND *10);
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
