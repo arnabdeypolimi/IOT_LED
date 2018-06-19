@@ -14,6 +14,7 @@
 
 #define ARRAY_SIZE( array ) sizeof( array ) / sizeof( char )
 #define CHANNEL 132
+#define pattern_size 5
 
 /*---------------------------------------------------------------------------*/
 PROCESS(controller_process, "Controller");
@@ -60,9 +61,9 @@ PROCESS_THREAD(controller_process, ev, data)
   static int counter = 0;
   static char *message;
   static int *pattern[]={2,5,8};
-  static char *pattern1[] = {"4", "10", "6", "2", "8"};
-  static char *pattern2[] = {"10","8","4","2"};/*{"4", "6", "10", "2", "8"};*/
-  static char *pattern3[] = {"2","6","10"};/*{"7", "6", "2", "8", "5"};*/
+  static char *pattern1[] = {"3", "5", "6", "7","9"};
+  static char *pattern2[] = {"4","7","6","5","10"};
+  static char *pattern3[] = {"2","3","4","6","7","10"};
 
   while(1) {
     rimeaddr_t addr;
@@ -81,18 +82,7 @@ PROCESS_THREAD(controller_process, ev, data)
 		printf("MESSAGE is: %s to node:%d \n", message, pattern[i]);
 		addr.u8[0]=pattern[i];
 		addr.u8[1]=0;
-		/*if(atoi(message) < 5){
-				addr.u8[0] = 2;
-				addr.u8[1] = 0;
-		}
-		else if(atoi(message) < 8 && atoi(message) >= 5){
-				addr.u8[0] = 5;
-				addr.u8[1] = 0;
-		}
-		else if(atoi(message) < 11 && atoi(message) >= 8){
-			 	addr.u8[0] = 8;
-				addr.u8[1] = 0;
-		}*/
+		
 		unicast_send(&uc, &addr);
 		etimer_set(&et, CLOCK_SECOND *10);
     		PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
@@ -102,7 +92,7 @@ PROCESS_THREAD(controller_process, ev, data)
     
     int st=counter;
 	if(st==1){ 
-		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
+		for(i = 0; i < pattern_size; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern1[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
@@ -123,11 +113,10 @@ PROCESS_THREAD(controller_process, ev, data)
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
-		//break;
 
     }
     if(st==3){ 
-		for(i = 0; i < 4; i++){	/* Send a message to node number 2 or 5 or 8. */
+		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern2[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
@@ -148,11 +137,10 @@ PROCESS_THREAD(controller_process, ev, data)
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
-		//break;
 
     }
     if(st==5){ 
-		for(i = 0; i < 3; i++){	/* Send a message to node number 2 or 5 or 8. */
+		for(i = 0; i < 6; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern3[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
@@ -173,7 +161,6 @@ PROCESS_THREAD(controller_process, ev, data)
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
-		//break;
 
     }
     etimer_set(&et, CLOCK_SECOND *5);
