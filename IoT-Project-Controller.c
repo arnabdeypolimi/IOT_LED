@@ -1,20 +1,17 @@
+/*--------------------------Include------------------------------------------*/
 #include "contiki.h"
-
 #include "net/rime.h"
-//#include "net/rime/mesh.h"
-
 #include "dev/button-sensor.h"
 #include "dev/leds.h"
 #include "lib/list.h"
 #include "lib/memb.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
+/*------------------------Define----------------------------------------------*/
 #define ARRAY_SIZE( array ) sizeof( array ) / sizeof( char )
 #define CHANNEL 132
-#define pattern_size 5
 
 /*---------------------------------------------------------------------------*/
 PROCESS(controller_process, "Controller");
@@ -60,21 +57,27 @@ PROCESS_THREAD(controller_process, ev, data)
   static int i = 0;
   static int counter = 0;
   static char *message;
-  static int *pattern[]={2,5,8};
-  static char *pattern1[] = {"3", "5", "6", "7","9"};
-  static char *pattern2[] = {"4","7","6","5","10"};
-  static char *pattern3[] = {"2","3","4","6","7","10"};
+
+  static int *pattern[]={2,5,8}; /*----pattern to turn off leds-----------------*/
+
+/*--------------------declaration of three patterns----------------------------*/
+  static char *pattern1[] = {"3", "5", "6", "7","9"}; /*----cross--------------*/
+  static char *pattern2[] = {"4","7","6","5","10"};   /*-----reverse T---------*/
+  static char *pattern3[] = {"2","3","4","6","7","10"};/*------triangle--------*/
+/*------------------------------------------------------------------------------*/
 
   while(1) {
     rimeaddr_t addr;
     /* Wait for button click before sending the first message. */
     PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
-    counter += 1;
+    counter += 1; /*----count how many times button is pressed-------*/
     printf("Button clicked %d times.\n", counter);
         etimer_set(&et, CLOCK_SECOND *5);
     	PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 	etimer_reset(&et);
-    if(counter%2 == 0){
+
+
+    if(counter%2 == 0){ /* it send turn off message in even number of button press*/ 
 	printf("Switching OFF the LEDS...\n");
 	for( i=0 ; i < 3; i++){	/* Switch off the leds */
 		message = "0";
@@ -83,16 +86,16 @@ PROCESS_THREAD(controller_process, ev, data)
 		addr.u8[0]=pattern[i];
 		addr.u8[1]=0;
 		
-		unicast_send(&uc, &addr);
+		unicast_send(&uc, &addr); /*----sending unicast message-----*/
 		etimer_set(&et, CLOCK_SECOND *10);
     		PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 		etimer_reset(&et);
 	}
     }
     
-    int st=counter;
-	if(st==1){ 
-		for(i = 0; i < pattern_size; i++){	/* Send a message to node number 2 or 5 or 8. */
+ /*------------------------------------sending messages for first pattern-------------------------------*/
+	if(counter==1){ 
+		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern1[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
@@ -108,14 +111,16 @@ PROCESS_THREAD(controller_process, ev, data)
 			 	addr.u8[0] = 8;
 				addr.u8[1] = 0;
 			}
-			unicast_send(&uc, &addr);
+			unicast_send(&uc, &addr); /*----sending unicast message-----*/
 			etimer_set(&et, CLOCK_SECOND *10);
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
 
     }
-    if(st==3){ 
+
+/*--------------------sending the message for pattern two----------------------------------*/
+    if(counter==3){ 
 		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern2[i];
 			packetbuf_copyfrom(message, strlen(message));
@@ -132,14 +137,16 @@ PROCESS_THREAD(controller_process, ev, data)
 			 	addr.u8[0] = 8;
 				addr.u8[1] = 0;
 			}
-			unicast_send(&uc, &addr);
+			unicast_send(&uc, &addr); /*----sending unicast message-----*/
 			etimer_set(&et, CLOCK_SECOND *15);
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
 
     }
-    if(st==5){ 
+
+/*-------------------------------sending the messages for pattern three-----------------*/
+    if(counter==5){ 
 		for(i = 0; i < 6; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern3[i];
 			packetbuf_copyfrom(message, strlen(message));
@@ -156,7 +163,7 @@ PROCESS_THREAD(controller_process, ev, data)
 			 	addr.u8[0] = 8;
 				addr.u8[1] = 0;
 			}
-			unicast_send(&uc, &addr);
+			unicast_send(&uc, &addr); /*----sending unicast message-----*/
 			etimer_set(&et, CLOCK_SECOND *20);
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
@@ -170,4 +177,4 @@ PROCESS_THREAD(controller_process, ev, data)
 
   PROCESS_END();
 }
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------*/
