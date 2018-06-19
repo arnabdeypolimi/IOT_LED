@@ -1,0 +1,236 @@
+00:00.329	ID:8	Rime started with address 8.0
+00:00.338	ID:8	MAC 08:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 8.
+00:00.347	ID:8	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.349	ID:8	Starting 'LED Node'
+00:00.492	ID:2	Rime started with address 2.0
+00:00.501	ID:2	MAC 02:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 2.
+00:00.507	ID:6	Rime started with address 6.0
+00:00.510	ID:2	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.512	ID:2	Starting 'LED Node'
+00:00.516	ID:6	MAC 06:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 6.
+00:00.525	ID:6	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.527	ID:6	Starting 'LED Node'
+00:00.605	ID:4	Rime started with address 4.0
+00:00.613	ID:4	MAC 04:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 4.
+00:00.623	ID:4	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.624	ID:4	Starting 'LED Node'
+00:00.639	ID:1	Rime started with address 1.0
+00:00.647	ID:1	MAC 01:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 1.
+00:00.657	ID:1	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.658	ID:7	Rime started with address 7.0
+00:00.658	ID:1	Starting 'Controller'
+00:00.667	ID:7	MAC 07:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 7.
+00:00.676	ID:7	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.678	ID:7	Starting 'LED Node'
+00:00.813	ID:10	Rime started with address 10.0
+00:00.822	ID:10	MAC 0a:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 10.
+00:00.831	ID:10	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.833	ID:10	Starting 'LED Node'
+00:00.965	ID:9	Rime started with address 9.0
+00:00.971	ID:5	Rime started with address 5.0
+00:00.974	ID:9	MAC 09:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 9.
+00:00.980	ID:5	MAC 05:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 5.
+00:00.983	ID:9	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.984	ID:9	Starting 'LED Node'
+00:00.989	ID:5	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:00.991	ID:5	Starting 'LED Node'
+00:01.156	ID:3	Rime started with address 3.0
+00:01.164	ID:3	MAC 03:00:00:00:00:00:00:00 Contiki-2.6-900-ga6227e1 started. Node id is set to 3.
+00:01.174	ID:3	nullmac nullrdc, channel check rate 128 Hz, radio channel 65491
+00:01.175	ID:3	Starting 'LED Node'
+00:09.641	ID:1	Button clicked 1 times.
+00:14.635	ID:1	MESSAGE is: 3 
+00:14.637	ID:1	packet sent
+00:14.640	ID:2	Data received from 1.0: 3 (1)
+00:14.642	ID:2	packet sent
+00:14.645	ID:2	Forwarding packet to node 3 ...
+00:14.645	ID:3	Data received from 2.0: 3 (1)
+00:14.646	ID:3	LED Node #3 ON!
+00:24.635	ID:1	MESSAGE is: 5 
+00:24.637	ID:1	packet sent
+00:24.639	ID:5	Data received from 1.0: 5 (1)
+00:24.641	ID:5	LED Node #5 ON!
+00:34.635	ID:1	MESSAGE is: 6 
+00:34.637	ID:1	packet sent
+00:34.639	ID:5	Data received from 1.0: 6 (1)
+00:34.642	ID:5	packet sent
+00:34.644	ID:5	Forwarding packet to node 6 ...
+00:34.645	ID:6	Data received from 5.0: 6 (1)
+00:34.646	ID:6	LED Node #6 ON!
+00:44.635	ID:1	MESSAGE is: 7 
+00:44.637	ID:1	packet sent
+00:44.639	ID:5	Data received from 1.0: 7 (1)
+00:44.642	ID:5	packet sent
+00:44.644	ID:5	Forwarding packet to node 6 ...
+00:44.645	ID:6	Data received from 5.0: 7 (1)
+00:44.647	ID:6	packet sent
+00:44.650	ID:6	Forwarding packet to node 7 ...
+00:44.650	ID:7	Data received from 6.0: 7 (1)
+00:44.651	ID:7	LED Node #7 ON!
+00:54.635	ID:1	MESSAGE is: 9 
+00:54.637	ID:1	packet sent
+00:54.639	ID:8	Data received from 1.0: 9 (1)
+00:54.642	ID:8	packet sent
+00:54.644	ID:8	Forwarding packet to node 9 ...
+00:54.645	ID:9	Data received from 8.0: 9 (1)
+00:54.646	ID:9	LED Node #9 ON!
+01:33.633	ID:1	Button clicked 2 times.
+01:38.628	ID:1	Switching OFF the LEDS...
+01:38.629	ID:1	MESSAGE is: 0 to node:2 
+01:38.632	ID:1	packet sent
+01:38.634	ID:2	Data received from 1.0: 0 (1)
+01:38.637	ID:2	packet sent
+01:38.639	ID:3	Data received from 2.0: 0 (1)
+01:38.642	ID:3	packet sent
+01:38.644	ID:4	Data received from 3.0: 0 (1)
+01:48.628	ID:1	MESSAGE is: 0 to node:5 
+01:48.630	ID:1	packet sent
+01:48.633	ID:5	Data received from 1.0: 0 (1)
+01:48.635	ID:5	packet sent
+01:48.638	ID:6	Data received from 5.0: 0 (1)
+01:48.640	ID:6	packet sent
+01:48.643	ID:7	Data received from 6.0: 0 (1)
+01:58.628	ID:1	MESSAGE is: 0 to node:8 
+01:58.630	ID:1	packet sent
+01:58.633	ID:8	Data received from 1.0: 0 (1)
+01:58.635	ID:8	packet sent
+01:58.638	ID:9	Data received from 8.0: 0 (1)
+01:58.640	ID:9	packet sent
+01:58.643	ID:10	Data received from 9.0: 0 (1)
+02:26.676	ID:1	Button clicked 3 times.
+02:31.674	ID:1	MESSAGE is: 4 
+02:31.676	ID:1	packet sent
+02:31.679	ID:2	Data received from 1.0: 4 (1)
+02:31.681	ID:2	packet sent
+02:31.684	ID:2	Forwarding packet to node 3 ...
+02:31.684	ID:3	Data received from 2.0: 4 (1)
+02:31.686	ID:3	packet sent
+02:31.689	ID:3	Forwarding packet to node 4 ...
+02:31.689	ID:4	Data received from 3.0: 4 (1)
+02:31.690	ID:4	LED Node #4 ON!
+02:46.674	ID:1	MESSAGE is: 7 
+02:46.676	ID:1	packet sent
+02:46.679	ID:5	Data received from 1.0: 7 (1)
+02:46.681	ID:5	packet sent
+02:46.684	ID:5	Forwarding packet to node 6 ...
+02:46.684	ID:6	Data received from 5.0: 7 (1)
+02:46.687	ID:6	packet sent
+02:46.689	ID:6	Forwarding packet to node 7 ...
+02:46.689	ID:7	Data received from 6.0: 7 (1)
+02:46.690	ID:7	LED Node #7 ON!
+03:01.674	ID:1	MESSAGE is: 6 
+03:01.676	ID:1	packet sent
+03:01.679	ID:5	Data received from 1.0: 6 (1)
+03:01.681	ID:5	packet sent
+03:01.684	ID:5	Forwarding packet to node 6 ...
+03:01.684	ID:6	Data received from 5.0: 6 (1)
+03:01.685	ID:6	LED Node #6 ON!
+03:16.674	ID:1	MESSAGE is: 5 
+03:16.676	ID:1	packet sent
+03:16.679	ID:5	Data received from 1.0: 5 (1)
+03:16.680	ID:5	LED Node #5 ON!
+03:31.674	ID:1	MESSAGE is: 10 
+03:31.677	ID:1	packet sent
+03:31.679	ID:8	Data received from 1.0: 10 (2)
+03:31.682	ID:8	packet sent
+03:31.684	ID:8	Forwarding packet to node 9 ...
+03:31.684	ID:9	Data received from 8.0: 10 (2)
+03:31.687	ID:9	packet sent
+03:31.689	ID:9	Forwarding packet to node 10 ...
+03:31.689	ID:10	Data received from 9.0: 10 (2)
+03:31.691	ID:10	LED Node #10 ON!
+03:55.492	ID:1	Button clicked 4 times.
+04:00.487	ID:1	Switching OFF the LEDS...
+04:00.489	ID:1	MESSAGE is: 0 to node:2 
+04:00.491	ID:1	packet sent
+04:00.494	ID:2	Data received from 1.0: 0 (1)
+04:00.496	ID:2	packet sent
+04:00.499	ID:3	Data received from 2.0: 0 (1)
+04:00.501	ID:3	packet sent
+04:00.503	ID:4	Data received from 3.0: 0 (1)
+04:10.487	ID:1	MESSAGE is: 0 to node:5 
+04:10.490	ID:1	packet sent
+04:10.492	ID:5	Data received from 1.0: 0 (1)
+04:10.495	ID:5	packet sent
+04:10.497	ID:6	Data received from 5.0: 0 (1)
+04:10.500	ID:6	packet sent
+04:10.502	ID:7	Data received from 6.0: 0 (1)
+04:20.487	ID:1	MESSAGE is: 0 to node:8 
+04:20.490	ID:1	packet sent
+04:20.492	ID:8	Data received from 1.0: 0 (1)
+04:20.495	ID:8	packet sent
+04:20.497	ID:9	Data received from 8.0: 0 (1)
+04:20.499	ID:9	packet sent
+04:20.502	ID:10	Data received from 9.0: 0 (1)
+05:27.961	ID:1	Button clicked 5 times.
+05:32.955	ID:1	MESSAGE is: 2 
+05:32.958	ID:1	packet sent
+05:32.960	ID:2	Data received from 1.0: 2 (1)
+05:32.961	ID:2	LED Node #2 ON!
+05:52.955	ID:1	MESSAGE is: 3 
+05:52.958	ID:1	packet sent
+05:52.960	ID:2	Data received from 1.0: 3 (1)
+05:52.963	ID:2	packet sent
+05:52.965	ID:2	Forwarding packet to node 3 ...
+05:52.965	ID:3	Data received from 2.0: 3 (1)
+05:52.966	ID:3	LED Node #3 ON!
+06:12.955	ID:1	MESSAGE is: 4 
+06:12.958	ID:1	packet sent
+06:12.960	ID:2	Data received from 1.0: 4 (1)
+06:12.963	ID:2	packet sent
+06:12.965	ID:2	Forwarding packet to node 3 ...
+06:12.965	ID:3	Data received from 2.0: 4 (1)
+06:12.968	ID:3	packet sent
+06:12.970	ID:3	Forwarding packet to node 4 ...
+06:12.970	ID:4	Data received from 3.0: 4 (1)
+06:12.971	ID:4	LED Node #4 ON!
+06:32.955	ID:1	MESSAGE is: 6 
+06:32.958	ID:1	packet sent
+06:32.960	ID:5	Data received from 1.0: 6 (1)
+06:32.963	ID:5	packet sent
+06:32.965	ID:5	Forwarding packet to node 6 ...
+06:32.965	ID:6	Data received from 5.0: 6 (1)
+06:32.966	ID:6	LED Node #6 ON!
+06:52.955	ID:1	MESSAGE is: 7 
+06:52.958	ID:1	packet sent
+06:52.960	ID:5	Data received from 1.0: 7 (1)
+06:52.963	ID:5	packet sent
+06:52.965	ID:5	Forwarding packet to node 6 ...
+06:52.965	ID:6	Data received from 5.0: 7 (1)
+06:52.968	ID:6	packet sent
+06:52.970	ID:6	Forwarding packet to node 7 ...
+06:52.970	ID:7	Data received from 6.0: 7 (1)
+06:52.971	ID:7	LED Node #7 ON!
+07:12.955	ID:1	MESSAGE is: 10 
+07:12.958	ID:1	packet sent
+07:12.960	ID:8	Data received from 1.0: 10 (2)
+07:12.963	ID:8	packet sent
+07:12.965	ID:8	Forwarding packet to node 9 ...
+07:12.965	ID:9	Data received from 8.0: 10 (2)
+07:12.968	ID:9	packet sent
+07:12.970	ID:9	Forwarding packet to node 10 ...
+07:12.971	ID:10	Data received from 9.0: 10 (2)
+07:12.972	ID:10	LED Node #10 ON!
+09:58.623	ID:1	Button clicked 6 times.
+10:03.620	ID:1	Switching OFF the LEDS...
+10:03.621	ID:1	MESSAGE is: 0 to node:2 
+10:03.624	ID:1	packet sent
+10:03.626	ID:2	Data received from 1.0: 0 (1)
+10:03.629	ID:2	packet sent
+10:03.631	ID:3	Data received from 2.0: 0 (1)
+10:03.634	ID:3	packet sent
+10:03.636	ID:4	Data received from 3.0: 0 (1)
+10:13.620	ID:1	MESSAGE is: 0 to node:5 
+10:13.622	ID:1	packet sent
+10:13.625	ID:5	Data received from 1.0: 0 (1)
+10:13.627	ID:5	packet sent
+10:13.630	ID:6	Data received from 5.0: 0 (1)
+10:13.632	ID:6	packet sent
+10:13.634	ID:7	Data received from 6.0: 0 (1)
+10:23.620	ID:1	MESSAGE is: 0 to node:8 
+10:23.622	ID:1	packet sent
+10:23.625	ID:8	Data received from 1.0: 0 (1)
+10:23.627	ID:8	packet sent
+10:23.629	ID:9	Data received from 8.0: 0 (1)
+10:23.632	ID:9	packet sent
+10:23.634	ID:10	Data received from 9.0: 0 (1)
