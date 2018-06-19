@@ -1,7 +1,7 @@
 #include "contiki.h"
 
 #include "net/rime.h"
-#include "net/rime/mesh.h"
+//#include "net/rime/mesh.h"
 
 #include "dev/button-sensor.h"
 #include "dev/leds.h"
@@ -61,8 +61,8 @@ PROCESS_THREAD(controller_process, ev, data)
   static char *message;
   static int *pattern[]={2,5,8};
   static char *pattern1[] = {"4", "10", "6", "2", "8"};
-  static char *pattern2[] = {"2", "6", "8", "4", "10"};
-  static char *pattern3[] = {"2","7","8","6","5"};
+  static char *pattern2[] = {"10","8","4","2"};/*{"4", "6", "10", "2", "8"};*/
+  static char *pattern3[] = {"2","6","10"};/*{"7", "6", "2", "8", "5"};*/
 
   while(1) {
     rimeaddr_t addr;
@@ -127,7 +127,7 @@ PROCESS_THREAD(controller_process, ev, data)
 
     }
     if(st==3){ 
-		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
+		for(i = 0; i < 4; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern2[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
@@ -144,7 +144,7 @@ PROCESS_THREAD(controller_process, ev, data)
 				addr.u8[1] = 0;
 			}
 			unicast_send(&uc, &addr);
-			etimer_set(&et, CLOCK_SECOND *10);
+			etimer_set(&et, CLOCK_SECOND *15);
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
@@ -152,7 +152,7 @@ PROCESS_THREAD(controller_process, ev, data)
 
     }
     if(st==5){ 
-		for(i = 0; i < 5; i++){	/* Send a message to node number 2 or 5 or 8. */
+		for(i = 0; i < 3; i++){	/* Send a message to node number 2 or 5 or 8. */
 			message = pattern3[i];
 			packetbuf_copyfrom(message, strlen(message));
 			printf("MESSAGE is: %s \n", message);
@@ -169,7 +169,7 @@ PROCESS_THREAD(controller_process, ev, data)
 				addr.u8[1] = 0;
 			}
 			unicast_send(&uc, &addr);
-			etimer_set(&et, CLOCK_SECOND *10);
+			etimer_set(&et, CLOCK_SECOND *20);
     			PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 			etimer_reset(&et);
     		}
